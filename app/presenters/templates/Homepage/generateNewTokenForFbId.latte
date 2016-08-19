@@ -1,0 +1,32 @@
+{block content}
+<ol class="breadcrumb">
+    <li><a n:href="listAccounts">Accounts</a></li>
+    <li><a n:href="listResourcesToBroadcast accountId=>$accountId, accessToken=> $accessToken">Where to broadcast</a></li>
+    <li class="active">Generated access token</li>
+</ol>
+
+<h1>Generated access token for Facebook Live Video</h1>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#normal-stream" aria-controls="home" role="tab" data-toggle="tab">Normal stream</a></li>
+    <li role="presentation"><a href="#secured-stream" aria-controls="profile" role="tab" data-toggle="tab">Secured stream</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="normal-stream">
+	{include '_streamTab.latte' primaryServerUrl => $liveVideoInfo['stream_url'], secondaryServers => $liveVideoInfo['stream_secondary_urls']}
+    </div>
+    <div role="tabpanel" class="tab-pane" id="secured-stream">
+	{include '_streamTab.latte' primaryServerUrl => $liveVideoInfo['secure_stream_url'], secondaryServers => $liveVideoInfo['secure_stream_secondary_urls']}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(body).ready(function () {
+	$('#myTabs a').click(function (e) {
+	    e.preventDefault()
+	    $(this).tab('show')
+	})
+    });
+</script>

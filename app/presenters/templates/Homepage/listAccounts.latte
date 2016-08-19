@@ -1,0 +1,26 @@
+{block content}
+<h2>Available accounts</h2>
+
+<div class="list-group">
+    <a n:href="listResourcesToBroadcast accountId=>$loggedUserInfo['id']"
+       class="list-group-item media" style="margin-top:0px;">
+	<div class="media-left media-top">
+	    <img src="{$loggedUserInfo['picture']['url']}">
+	</div>
+	<div class="media-body">
+	    <h4 class="media-heading">{$loggedUserInfo['name']}</h4>
+	</div>
+    </a>
+    {foreach $userAccounts as $graphNode}
+	<a n:href="listResourcesToBroadcast accountId=>$graphNode['id'], accessToken=> $graphNode['access_token']"
+	   class="list-group-item media" style="margin-top:0px;">
+	    <div class="media-left media-top">
+		<img src="{$graphNode['picture']['url']}">
+	    </div>
+	    <div class="media-body">
+		<h4 class="media-heading">{$graphNode['name']}</h4>
+	    </div>
+	</a>
+    {/foreach}
+
+</div>

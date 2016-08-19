@@ -1,0 +1,24 @@
+/log/*
+/temp/*
+!vendor/others
+
+.DS_Store
+!.gitignore
+!.htaccess
+!web.config
+app/config/config.local.neon
+
+# IDEs
+/nbproject/
+/.idea/
+
+#grunt
+/node_modules/
+npm-debug.log
+
+#bower
+/www/bower_components/*
+
+#kvuli composeru
+syntax: glob
+.git  

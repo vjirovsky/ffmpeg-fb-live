@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<title>FFmpeg Live Videos</title>
+    </head>
+
+    <body>
+	<div class="container">
+	    <nav class="navbar navbar-default">
+		<div class="container-fluid">
+		    <div class="navbar-header">
+			<a class="navbar-brand" n:href="default">FFmpeg Live Videos</a>
+		    </div>
+		    {ifset $loggedUserInfo}
+			<ul class="nav navbar-nav navbar-right">
+			    <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				    <img src="{$loggedUserInfo['picture']['url']}" style="max-width: 25px;"> {$loggedUserInfo['name']} <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+				    <li><a n:href="listAccounts">Available accounts</a></li>
+				    <li role="separator" class="divider"></li>
+				    <li><a n:href="logout" onclick="logoutFromFacebook();">Logout</a></li>
+				</ul>
+			    </li>
+			</ul>
+		    {/ifset}
+		</div>
+	    </nav>
+
+	    <div class="row">
+		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
+	    </div>
+	    {include content}
+
+	</div>
+
+	{block scripts}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script>
+					logInWithFacebook = function () {
+					    FB.login(function (response) {
+						if (response.authResponse) {
+						    window.location.href = './js-login';
+						} else {
+						    console.log("User canceled log in.")
+						}
+					    }, {
+						scope: 'public_profile,publish_actions,manage_pages,publish_pages,user_managed_groups,user_events'});
+					    return false;
+					};
+
+					window.fbAsyncInit = function () {
+					    FB.init({
+						appId: {$facebookAppId},
+						cookie: true, // This is important, it's not enabled by default
+						version: {$facebookDefaultGraphVersion}
+					    });
+					};
+
+					(function (d, s, id) {
+					    var js, fjs = d.getElementsByTagName(s)[0];
+					    if (d.getElementById(id)) {
+						return;
+					    }
+					    js = d.createElement(s);
+					    js.id = id;
+					    js.src = "//connect.facebook.net/en_US/sdk.js";
+					    fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));
+
+	</script>
+	{/block}
+    </body>
+</html>

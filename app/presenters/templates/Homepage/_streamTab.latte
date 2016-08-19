@@ -1,0 +1,37 @@
+
+<h3>For resource</h3>
+TODO: moje timeline
+
+<h3>Stream parameters</h3>
+<br />
+<div class="panel panel-primary"> 
+    <div class="panel-heading"> 
+	<h3 class="panel-title">
+	    FFmpeg command
+	</h3> 
+    </div> 
+    <div class="panel-body"> 
+	<div class="well well-sm">
+	    ffmpeg -i %YOUR-FILE% -f flv "{$primaryServerUrl}"
+	</div>
+    </div> 
+</div>
+<br /><br /><br />
+<div class="panel panel-default"> 
+    <div class="panel-heading"> 
+	<h3 class="panel-title">
+	    RTMP server URL(s)
+	</h3> 
+    </div> 
+    <div class="panel-body"> 
+	<div class="well well-sm">
+	    {$primaryServerUrl}
+	</div>
+
+	{foreach $secondaryServers as $server}
+	    <div class="well well-sm">
+		{$server}
+	    </div>
+	{/foreach}
+    </div> 
+</div>

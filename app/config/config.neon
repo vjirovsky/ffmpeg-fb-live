@@ -1,0 +1,25 @@
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+
+parameters:
+	facebookApp:
+		appId: "911104089036493"
+		appSecret: "02a1066bf4d676cd5a56866a5c020f48"
+		graphVersion: "v2.7"
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+services:
+	router: App\RouterFactory::createRouter

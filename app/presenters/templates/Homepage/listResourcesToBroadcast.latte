@@ -1,0 +1,48 @@
+{block content}
+<ol class="breadcrumb">
+    <li><a n:href="listAccounts">Accounts</a></li>
+    <li class="active">Where to broadcast</li>
+</ol>
+
+<h1>Where to broadcast</h1>
+<h2>To my Timeline</h2>
+<div class="list-group">
+    <a n:href="generateNewTokenForFbId fbId=>$loggedUserInfo['id'],accessToken=> $resourceAccessToken"
+       class="list-group-item media" style="margin-top:0px;">
+	<div class="media-left media-top">
+	    <img src="{$selectedUserInfo['picture']['url']}">
+	</div>
+	<div class="media-body">
+	    <h4 class="media-heading">{$selectedUserInfo['name']}</h4>
+	    My Timeline
+	</div>	
+    </a><br />
+</div>
+
+<h2>To my events</h2>
+<div class="list-group">
+    {var $eventsCount = 0}
+    {foreach $eventsPages as $page}
+	{foreach $page as $graphNode}
+	    <a n:href="generateNewTokenForFbId fbId=>$graphNode['id'], accessToken=> $resourceAccessToken"
+	       class="list-group-item media" style="margin-top:0px;">
+		<div class="media-left media-top">
+		    <img class="media-object" src="{$graphNode['picture']['url']}">
+		</div>
+		<div class="media-body">
+		    <h4 class="media-heading">{$graphNode['name']}</h4>
+		    <small>From {$graphNode['start_time']|date: "j.n.Y"} at {$graphNode['start_time']|date: "H:i"}</small>
+		    <p n:ifset="$graphNode['description']">
+			{$graphNode['description']|truncate:160}
+		    </p>
+		</div>		    
+	    </a>
+	    {var $eventsCount=$eventsCount+1;}
+	{/foreach}
+    {/foreach}
+    {if !$eventsCount}
+	 <div class="list-group-item">
+	     No events available.
+	 </div>
+    {/if}
+</div>
