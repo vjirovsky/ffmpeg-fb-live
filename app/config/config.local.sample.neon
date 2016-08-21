@@ -1,0 +1,5 @@
+parameters:
+	facebookApp:
+		appId: "----------YOUR-FB-APP-ID--------------"
+		appSecret: "----------YOUR-FB-APP-SECRET--------------"
+	debugger: true
