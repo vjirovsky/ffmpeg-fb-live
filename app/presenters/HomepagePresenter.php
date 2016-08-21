@@ -54,11 +54,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 	if ($this->loggedAccountId !== null) {
 	    try {
 		$response = $this->facebookHandler->get('/' . $this->accountId . '?metadata=1&fields=id,name,picture,metadata{type}', $this->defaultAccessToken);
-	    } catch (Facebook\Exceptions\FacebookResponseException $e) {
-		//echo 'Graph returned an error: ' . $e->getMessage();
-		$this->flashMessage("There have been some error during loading informations about logged user. Please log in again.", "danger");
-		$this->actionLogout(false);
-	    } catch (Facebook\Exceptions\FacebookSDKException $e) {
+	    } catch (\Exception $e) {
 		//echo 'Facebook SDK returned an error: ' . $e->getMessage();
 		$this->flashMessage("There have been some error during loading informations about logged user. Please log in again.", "danger");
 		$this->actionLogout(false);
@@ -72,6 +68,10 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 	$this->template->accountId = $this->accountId;
     }
 
+    public function renderDefault(){
+	$this->template->enabledRobots = true;
+    }
+    
     public function renderJsLogin() {
 
 
@@ -79,11 +79,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
 	try {
 	    $accessToken = $helper->getAccessToken();
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
-	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during logging in. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
+	} catch (\Exception $e) {
 	    // When validation fails or other local issues
 	    //echo 'Facebook SDK returned an error: ' . $e->getMessage();
 	    $this->flashMessage("There have been some error during logging in. Please log in again.", "danger");
@@ -107,30 +103,28 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
 	try {
 	    $response = $this->facebookHandler->get('/me?fields=id,name,picture', $this->defaultAccessToken);
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
+	} catch (\Exception $e) {
 	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during loading informations about you. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
 	    $this->flashMessage("There have been some error during loading informations about you. Please log in again.", "danger");
 	    $this->actionLogout(false);
 	}
 
-	$this->template->loggedUserInfo = $response->getGraphUser();
+	$this->template->loggedUserInfo = $loggedUserInfo = $response->getGraphUser();
 	$this->loggedAccountId = $this->template->loggedUserInfo['id'];
 
 	try {
 	    $response = $this->facebookHandler->get('/me/accounts?fields=id,name,access_token,picture', $this->defaultAccessToken);
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
-	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during loading informations about your accounts. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
+	} catch (\Exception $e) {
 	    //echo 'Facebook SDK returned an error: ' . $e->getMessage();
 	    $this->flashMessage("There have been some error during loading informations about your accounts. Please log in again.", "danger");
 	    $this->actionLogout(false);
 	}
-	$this->template->userAccounts = $response->getGraphEdge();
+	$this->template->userAccounts = $userAccounts = $response->getGraphEdge();
+	
+	if(!count($userAccounts)){
+	    $this->flashMessage("You have no other account, you can broadcast only to your account.", "info");
+	    $this->redirect('listResourcesToBroadcast', ['accountId'=>$loggedUserInfo['id']]);
+	}
     }
 
     public function renderListResourcesToBroadcast($accountId, $accessToken = null) {
@@ -145,11 +139,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
 	try {
 	    $response = $this->facebookHandler->get('/' . $accountId . '?metadata=1&fields=id,name,picture,metadata{type}', $accessToken);
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
-	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during loading information about selected account. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
+	} catch (\Exception $e) {
 	    //echo 'Facebook SDK returned an error: ' . $e->getMessage();
 	    $this->flashMessage("There have been some error during loading information about selected account. Please log in again.", "danger");
 	    $this->actionLogout(false);
@@ -161,11 +151,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
 	try {
 	    $response = $this->facebookHandler->get('/' . $accountId . '/events?fields=id,name,description,start_time,picture', $accessToken);
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
-	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during loading your events. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
+	} catch (\Exception $e) {
 	    $this->flashMessage("There have been some error during loading your events. Please log in again.", "danger");
 	    $this->actionLogout(false);
 	}
@@ -196,11 +182,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
 	try {
 	    $response = $this->facebookHandler->post('/' . $fbId . '/live_videos', [], $accessToken);
-	} catch (Facebook\Exceptions\FacebookResponseException $e) {
-	    //echo 'Graph returned an error: ' . $e->getMessage();
-	    $this->flashMessage("There have been some error during generating token. Please log in again.", "danger");
-	    $this->actionLogout(false);
-	} catch (Facebook\Exceptions\FacebookSDKException $e) {
+	} catch (\Exception $e) {
 	    $this->flashMessage("There have been some error during generating token. Please log in again.", "danger");
 	    $this->actionLogout(false);
 	}
@@ -217,7 +199,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 	$token = $this->defaultAccessToken;
 	try {
 	    $this->facebookHandler->delete("/me/permissions", ['access_token' => $token], $token);
-	} catch (Exception $e) {
+	} catch (\Exception $e) {
 	    //no handling, only "try to logout" - it could be damaged session
 	}
 
