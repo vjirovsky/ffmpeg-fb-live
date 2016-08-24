@@ -3,10 +3,10 @@
   "authors": [
     "VJirovsky <vjirovsky@vjirovsky.cz>"
   ],
-  "description": "",
+  "description": "Web applications which helps to connect IP cameras (or other ffmpeg inputs) with Facebook Live Videos - users can generate access tokens.",
   "main": "",
   "license": "MIT",
-  "homepage": "https://vjirovsky.cz",
+  "homepage": "https://labs.vjirovsky.cz/ffmpeglive",
   "private": true,
   "ignore": [
     "**/.*",

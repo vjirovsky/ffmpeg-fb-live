@@ -1,37 +1,59 @@
 
-<h3>For resource</h3>
-TODO: moje timeline
+<h3>Where to broadcast</h3>
+
+<p>
+    When you will use parameters below, Live Video will be published to:
+</p>
+<br />
+<div class="list-group">
+    <div class="list-group-item media">
+        <div class="media-left media-top">
+            <img src="{$selectedResourceInfo['picture']['url']}">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{$selectedResourceInfo['name']}</h4>
+            {if $selectedResourceInfo['metadata']['type'] === "user"}
+                My Timeline
+            {elseif $selectedResourceInfo['metadata']['type'] === "event"}
+                Event
+            {else}
+                unknown type
+            {/if}
+        </div>
+    </div>
+</div>
+<br /><br />
 
 <h3>Stream parameters</h3>
 <br />
 <div class="panel panel-primary"> 
     <div class="panel-heading"> 
-	<h3 class="panel-title">
-	    FFmpeg command
-	</h3> 
+        <h3 class="panel-title">
+            FFmpeg command
+        </h3> 
     </div> 
     <div class="panel-body"> 
-	<div class="well well-sm">
-	    ffmpeg -i %YOUR-FILE% -f flv "{$primaryServerUrl}"
-	</div>
+        <code>
+            ffmpeg -i %YOUR-FILE% -f flv "{$primaryServerUrl}"
+        </code>
     </div> 
 </div>
 <br /><br /><br />
 <div class="panel panel-default"> 
     <div class="panel-heading"> 
-	<h3 class="panel-title">
-	    RTMP server URL(s)
-	</h3> 
+        <h3 class="panel-title">
+            RTMP server URL(s)
+        </h3> 
     </div> 
     <div class="panel-body"> 
-	<div class="well well-sm">
-	    {$primaryServerUrl}
-	</div>
+        <code>
+            {$primaryServerUrl}
+        </code>
 
-	{foreach $secondaryServers as $server}
-	    <div class="well well-sm">
-		{$server}
-	    </div>
-	{/foreach}
+        {foreach $secondaryServers as $server}
+            <code>
+                {$server}
+            </code>
+        {/foreach}
     </div> 
 </div>

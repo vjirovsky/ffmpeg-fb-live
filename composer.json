@@ -1,8 +1,8 @@
 {
-    "name": "nette/web-project",
-    "description": "Nette: Standard Web Project",
+    "name": "vjirovsky/fffmpeg-live",
+    "description": "Web applications which helps to connect IP cameras (or other ffmpeg inputs) with Facebook Live Videos - users can generate access tokens.",
     "type": "project",
-    "license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+    "license": ["GPL-3.0"],
     "require": {
 	"php": ">= 5.3",
 	"nette/application": "^2.3.6",

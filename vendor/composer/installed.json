@@ -1250,12 +1250,12 @@
         "version_normalized": "5.3.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
+            "url": "https://github.com/facebook/php-graph-sdk.git",
             "reference": "7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1",
+            "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1",
             "reference": "7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1",
             "shasum": ""
         },
@@ -1301,6 +1301,7 @@
         "keywords": [
             "facebook",
             "sdk"
-        ]
+        ],
+        "abandoned": "facebook/graph-sdk"
     }
 ]
