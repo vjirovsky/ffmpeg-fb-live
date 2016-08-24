@@ -9,6 +9,11 @@ use Facebook,
 class HomepagePresenter extends Nette\Application\UI\Presenter {
 
     /**
+     * @var array config of all app
+     */
+    protected $appConfig = [];
+
+    /**
      * @var array config of integrated facebook app
      */
     protected $facebookAppConfig = [];
@@ -39,7 +44,8 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
     public function startup() {
         parent::startup();
 
-        $this->facebookAppConfig = $this->context->parameters['facebookApp'];
+        $this->appConfig = $this->context->parameters;
+        $this->facebookAppConfig = $this->appConfig['facebookApp'];
 
         $this->facebookHandler = new Facebook\Facebook([
             'app_id' => $this->facebookAppConfig['appId'],
@@ -63,6 +69,10 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
             $this->template->loggedUserInfo = $response->getGraphNode();
         }
 
+	if(isset($this->appConfig['gaUAcode'])){
+	    $this->template->gaUAcode = $this->appConfig['gaUAcode'];
+	}
+	
         $this->template->facebookAppId = $this->facebookAppConfig['appId'];
         $this->template->facebookDefaultGraphVersion = $this->facebookAppConfig['graphVersion'];
         $this->template->accountId = $this->accountId;
