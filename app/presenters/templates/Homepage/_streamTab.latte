@@ -34,7 +34,7 @@
     </div> 
     <div class="panel-body"> 
         <code>
-            ffmpeg -i %YOUR-FILE% -f flv "{$primaryServerUrl}"
+            ffmpeg -acodec libmp3lame  -ar 44100 -b:a 128k -pix_fmt yuv420p -profile:v baseline -bufsize 7168k -vb 2496k -maxrate 3072k -vcodec libx264 -preset medium -g 30 -r 25 -f flv -s 1280x720 "{$primaryServerUrl}" -i %YOUR-FILE%
         </code>
     </div> 
 </div>
